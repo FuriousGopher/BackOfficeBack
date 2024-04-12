@@ -1,21 +1,26 @@
 import express, { Request, Response } from 'express';
-import "reflect-metadata"
-import {AppDataSource} from "./db/data-source";
+import 'reflect-metadata';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import { runDb } from './db/data-source';
+import { router } from './router/routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-AppDataSource.initialize()
-    .then(() => {
-        console.log(`Server connect to ${process.env.DB_HOST}`);
-    })
-    .catch((error) => console.log(error))
+app.use(cookieParser());
 
+app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, World!');
-});
+app.use(cors());
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.use(router);
+
+const startApp = async () => {
+  await runDb();
+  app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}`);
+  });
+};
+
+startApp();

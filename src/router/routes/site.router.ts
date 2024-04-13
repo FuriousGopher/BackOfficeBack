@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { validationMiddleware } from '../../validators/validationErorrsMiddleware';
 import { createSiteDTOValidator } from '../../validators/createDTOValidator';
-import { CustomerController } from '../../controllers/customer.controller';
 import { updateSiteDTOValidator } from '../../validators/updateDTOValidator';
 import { SiteController } from '../../controllers/site.controller';
 
@@ -21,4 +20,4 @@ siteRouter.put(
   SiteController.update,
 );
 
-siteRouter.get('/getAll', CustomerController.getAll);
+siteRouter.get('/getAll', SiteController.getAllByCustomerId);

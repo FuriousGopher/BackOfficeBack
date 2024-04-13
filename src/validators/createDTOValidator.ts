@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-export const createDTOValidator = [
+export const createCustomerDTOValidator = [
   body('name').isString().trim().notEmpty().withMessage('name required'),
   body('email').isString().trim().notEmpty().withMessage('email required'),
   body('vatNumber')
@@ -12,6 +12,11 @@ export const createDTOValidator = [
 
 export const createSiteDTOValidator = [
   body('name').isString().trim().notEmpty().withMessage('name required'),
+  body('customerId')
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage('customer id required'),
   body('coordinates')
     .isString()
     .trim()

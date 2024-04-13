@@ -29,6 +29,7 @@ export type updateCustomerDTO = {
 };
 
 export type createSiteDTO = {
+  customerId: number;
   name: string;
   coordinates: string;
   post_code: string;

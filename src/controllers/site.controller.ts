@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { createSiteDTO, updateSiteDTO } from '../types/types';
+import { SiteService } from '../services/site.service';
+import { SiteRepository } from '../repositories/site.repository';
 
 export class SiteController {
   static async createNewSite(req: Request, res: Response) {
@@ -23,9 +25,9 @@ export class SiteController {
     }
   }
 
-  static async getAll(req: Request, res: Response) {
+  static async getAllByCustomerId(req: Request, res: Response) {
     try {
-      const result = await SiteRepository.findAll();
+      const result = await SiteRepository.findAll(+req.body.customerId);
       if (!result) {
         throw new Error('No site found');
       }

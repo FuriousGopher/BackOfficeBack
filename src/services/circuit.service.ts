@@ -1,4 +1,3 @@
-import { SiteRepository } from '../repositories/site.repository';
 import { createCircuitDTO, updateCircuitDTO } from '../types/types';
 import { CircuitRepository } from '../repositories/circuit.repository';
 import { MeterRepository } from '../repositories/meter.repository';

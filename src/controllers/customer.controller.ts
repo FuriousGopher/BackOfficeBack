@@ -33,7 +33,7 @@ export class CustomerController {
     try {
       const result = await CustomerRepository.findAll();
       if (!result) {
-        throw new Error('No customers found');
+        res.sendStatus(StatusCodes.NOT_FOUND);
       }
       res.status(StatusCodes.OK).json(result);
     } catch (e: any) {

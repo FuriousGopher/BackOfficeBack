@@ -1,5 +1,4 @@
 import { createMeterDTO, updateMeterDTO } from '../types/types';
-import { CustomerRepository } from '../repositories/customer.repository';
 import { MeterRepository } from '../repositories/meter.repository';
 import { SiteRepository } from '../repositories/site.repository';
 

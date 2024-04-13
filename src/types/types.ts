@@ -1,5 +1,3 @@
-import { StatusCodes } from 'http-status-codes';
-
 export type ErrorType = {
   message: string;
   field: string;

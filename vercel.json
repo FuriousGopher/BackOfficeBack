@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "claerVueBack",
+  "name": "clearVueBack",
   "builds": [
     {
       "src": "src/app.ts",

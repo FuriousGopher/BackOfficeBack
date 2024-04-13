@@ -1,23 +1,23 @@
 import { Router } from 'express';
 import { validationMiddleware } from '../../validators/validationErorrsMiddleware';
-import { createCustomerDTOValidator } from '../../validators/createDTOValidator';
-import { CustomerController } from '../../controllers/customer.controller';
-import { updateDTOValidator } from '../../validators/updateDTOValidator';
+import { createCircuitDTOValidator } from '../../validators/createDTOValidator';
+import { updateCircuitDTOValidator } from '../../validators/updateDTOValidator';
+import { CircuitController } from '../../controllers/circuit.controller';
 
-export const customerRouter = Router();
+export const circuitRouter = Router();
 
-customerRouter.post(
+circuitRouter.post(
   '/create',
-  createCustomerDTOValidator,
+  createCircuitDTOValidator,
   validationMiddleware,
-  CustomerController.createNewCustomer,
+  CircuitController.createNewCircuit,
 );
 
-customerRouter.put(
+circuitRouter.put(
   '/update',
-  updateDTOValidator,
+  updateCircuitDTOValidator,
   validationMiddleware,
-  CustomerController.update,
+  CircuitController.update,
 );
 
-customerRouter.get('/getAll', CustomerController.getAll);
+circuitRouter.get('/getAll', CircuitController.getAllByMeterId);

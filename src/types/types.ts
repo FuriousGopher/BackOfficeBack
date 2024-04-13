@@ -12,7 +12,7 @@ export class HttpError extends Error {
     super(message);
     this.message = message;
     this.statusCode = statusCode;
-  }
+  } //TODO check if needed
 }
 
 export type CreateAdminDTO = {
@@ -42,5 +42,35 @@ export type updateSiteDTO = {
   coordinates: string;
   post_code: string;
   address: string;
+  isDelete: boolean;
+};
+
+export type createMeterDTO = {
+  siteId: number;
+  name: string;
+  serialNumber: string;
+  installationDate: Date;
+};
+
+export type updateMeterDTO = {
+  id: number;
+  name: string;
+  serialNumber: string;
+  installationDate: Date;
+  isDelete: boolean;
+};
+
+export type createCircuitDTO = {
+  meterId: number;
+  name: string;
+  is_main: boolean;
+  installationDate: Date;
+};
+
+export type updateCircuitDTO = {
+  id: number;
+  name: string;
+  is_main: boolean;
+  installationDate: Date;
   isDelete: boolean;
 };

@@ -3,7 +3,6 @@ import { SiteModel } from '../models/site.model';
 import { CustomerModel } from '../models/customer.model';
 import { createSiteDTO, updateSiteDTO } from '../types/types';
 import { IsNull } from 'typeorm';
-
 const Site = AppDataSource.getRepository(SiteModel);
 
 export class SiteRepository {

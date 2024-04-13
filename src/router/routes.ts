@@ -4,6 +4,8 @@ import { adminRouter } from './routes/admin.router';
 import { customerRouter } from './routes/customer.router';
 import { validatorForCookieToken } from '../validators/validatorForCookieToken';
 import { siteRouter } from './routes/site.router';
+import { meterRouter } from './routes/meter.router';
+import { circuitRouter } from './routes/circuit.router';
 
 export const router = express.Router();
 
@@ -16,9 +18,6 @@ router.get('/', (req: Request, res: Response) => {
 router.use('/auth', authRouter);
 router.use('/admin', adminRouter);
 router.use('/customer', validatorForCookieToken, customerRouter);
-
 router.use('/site', validatorForCookieToken, siteRouter);
-
-//router.use('/meter', validatorForCookieToken, meterRouter);
-
-//router.use('/circuit', validatorForCookieToken, circuitRouter);
+router.use('/meter', validatorForCookieToken, meterRouter);
+router.use('/circuit', validatorForCookieToken, circuitRouter);

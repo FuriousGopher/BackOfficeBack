@@ -29,7 +29,7 @@ export class SiteController {
     try {
       const result = await SiteRepository.findAll(+req.body.customerId);
       if (!result) {
-        throw new Error('No site found');
+        res.sendStatus(StatusCodes.NOT_FOUND);
       }
       res.status(StatusCodes.OK).json(result);
     } catch (e: any) {

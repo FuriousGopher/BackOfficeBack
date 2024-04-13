@@ -16,3 +16,19 @@ export const updateSiteDTOValidator = [
   body('post_code').isString().trim().optional(),
   body('isDelete').isBoolean().optional(),
 ];
+
+export const updateMeterDTOValidator = [
+  body('id').isNumeric().withMessage('id required'),
+  body('name').isString().trim().optional(),
+  body('serialNumber').isString().trim().optional(),
+  body('installationDate').isString().trim().optional(),
+  body('isDelete').isBoolean().optional(),
+];
+
+export const updateCircuitDTOValidator = [
+  body('id').isNumeric().withMessage('id required'),
+  body('name').isString().trim().optional(),
+  body('is_main').isBoolean().trim().optional(),
+  body('installationDate').isDate().trim().optional(),
+  body('isDelete').isBoolean().optional(),
+];

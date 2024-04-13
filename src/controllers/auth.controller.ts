@@ -11,7 +11,6 @@ export class AuthController {
     );
     if (result) {
       const newRefreshToken = await JwtService.createRefreshTokenJWT(result.id);
-      console.log(newRefreshToken);
       res
         .cookie('AUTH_TOKEN', newRefreshToken, {
           httpOnly: true,
@@ -25,7 +24,7 @@ export class AuthController {
     }
   };
 
-  static logOut = async (req: Request, res: Response) => {
+  static logOut = async (_req: Request, res: Response) => {
     res.clearCookie('AUTH_TOKEN').sendStatus(StatusCodes.NO_CONTENT);
   };
 }

@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   PrimaryGeneratedColumn,
@@ -8,15 +9,14 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'admin' })
-export class Admin {
-  @PrimaryGeneratedColumn({ unsigned: true })
+export class AdminModel {
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   email: string;
 
   @Column({
-    name: 'passwordHash',
     type: 'varchar',
     length: 255,
     nullable: false,
@@ -30,7 +30,7 @@ export class Admin {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz', select: false })
   updatedAt: Date;
 
-  @Column({
+  @DeleteDateColumn({
     name: 'deleted_at',
     type: 'timestamptz',
     nullable: true,

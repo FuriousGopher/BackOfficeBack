@@ -9,4 +9,13 @@ export class AdminService {
     const passwordHash = await _generateHash(newAdmin.password, passwordSalt);
     return await AdminRepository.saveNewAdmin(passwordHash, newAdmin.email);
   }
+
+  static async delete(adminId: number) {
+    const check = await AdminRepository.findAdminById(adminId);
+    if (check) {
+      return await AdminRepository.removeAdmin(adminId);
+    } else {
+      throw new Error('Admin not found');
+    }
+  }
 }

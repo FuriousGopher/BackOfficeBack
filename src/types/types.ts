@@ -19,3 +19,27 @@ export type CreateAdminDTO = {
   email: string;
   password: string;
 };
+
+export type updateCustomerDTO = {
+  id: number;
+  name: string;
+  email: string;
+  vat_number: string;
+  isDelete: boolean;
+};
+
+export type createSiteDTO = {
+  name: string;
+  coordinates: string;
+  post_code: string;
+  address: string;
+};
+
+export type updateSiteDTO = {
+  id: number;
+  name: string;
+  coordinates: string;
+  post_code: string;
+  address: string;
+  isDelete: boolean;
+};

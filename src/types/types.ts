@@ -5,16 +5,6 @@ export type ErrorType = {
   field: string;
 };
 
-export class HttpError extends Error {
-  public readonly statusCode: StatusCodes;
-
-  constructor(message: string, statusCode: StatusCodes) {
-    super(message);
-    this.message = message;
-    this.statusCode = statusCode;
-  } //TODO check if needed
-}
-
 export type CreateAdminDTO = {
   email: string;
   password: string;

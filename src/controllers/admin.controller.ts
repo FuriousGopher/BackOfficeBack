@@ -20,7 +20,8 @@ export class AdminController {
 
   static async deleteAdmin(req: Request, res: Response): Promise<void> {
     try {
-      const adminId = req.params.id;
+      console.log(req.body);
+      const adminId = req.body.adminId;
       await AdminService.delete(+adminId);
       res.status(StatusCodes.OK).send('Successfully deleted admin');
     } catch (e: any) {

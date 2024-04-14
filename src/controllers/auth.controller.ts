@@ -15,6 +15,7 @@ export class AuthController {
         .cookie('AUTH_TOKEN', newRefreshToken, {
           httpOnly: true,
           secure: true,
+          sameSite: 'none',
         })
         .sendStatus(StatusCodes.OK);
     } else {

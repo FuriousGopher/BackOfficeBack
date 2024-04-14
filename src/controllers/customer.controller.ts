@@ -40,4 +40,17 @@ export class CustomerController {
       res.status(StatusCodes.BAD_REQUEST).send(e.message);
     }
   }
+
+  static async getAllInfo(req: Request, res: Response) {
+    try {
+      const customerId = req.query.id!;
+      const result = await CustomerService.findAllInfoById(+customerId);
+      if (!result) {
+        res.sendStatus(StatusCodes.NOT_FOUND);
+      }
+      res.status(StatusCodes.OK).json(result);
+    } catch (e: any) {
+      res.status(StatusCodes.BAD_REQUEST).send(e.message);
+    }
+  }
 }

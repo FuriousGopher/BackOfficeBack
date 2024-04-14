@@ -25,7 +25,7 @@ export class CustomerRepository {
     return await Customer.save(customer);
   }
 
-  static async update(
+  static update(
     updateCustomerDTO: updateCustomerDTO,
     foundCustomer: CustomerModel,
   ) {
@@ -38,5 +38,14 @@ export class CustomerRepository {
 
   static async findAll() {
     return await Customer.find();
+  }
+
+  static async findAllInfo(customerId: number) {
+    return await Customer.createQueryBuilder('customer')
+      .leftJoinAndSelect('customer.sites', 'site')
+      .leftJoinAndSelect('site.meters', 'meter')
+      .leftJoinAndSelect('meter.circuits', 'circuit')
+      .where('customer.id = :customerId', { customerId })
+      .getMany();
   }
 }

@@ -19,4 +19,12 @@ export class CustomerService {
     }
     return await CustomerRepository.update(updateCustomerDTO, foundCustomer);
   }
+
+  static async findAllInfoById(customerId: number) {
+    const foundCustomer = await CustomerRepository.findOneById(customerId);
+    if (!foundCustomer) {
+      throw new Error(`Customer not found`);
+    }
+    return CustomerRepository.findAllInfo(customerId);
+  }
 }

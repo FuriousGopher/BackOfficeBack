@@ -21,3 +21,5 @@ customerRouter.put(
 );
 
 customerRouter.get('/getAll', CustomerController.getAll);
+
+customerRouter.get('/getAllInfo', CustomerController.getAllInfo);

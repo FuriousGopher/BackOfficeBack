@@ -6,7 +6,7 @@ import { runDb } from './db/data-source';
 import { router } from './router/routes';
 
 const app = express();
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
 

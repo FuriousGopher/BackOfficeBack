@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createSiteDTO, updateSiteDTO } from '../types/types';
 import { SiteService } from '../services/site.service';
 import { SiteRepository } from '../repositories/site.repository';
+import { CustomerRepository } from '../repositories/customer.repository';
 
 export class SiteController {
   static async createNewSite(req: Request, res: Response) {
@@ -27,7 +28,19 @@ export class SiteController {
 
   static async getAllByCustomerId(req: Request, res: Response) {
     try {
-      const result = await SiteRepository.findAll(+req.body.customerId);
+      const result = await SiteRepository.findAllById(+req.body.customerId);
+      if (!result) {
+        res.sendStatus(StatusCodes.NOT_FOUND);
+      }
+      res.status(StatusCodes.OK).json(result);
+    } catch (e: any) {
+      res.status(StatusCodes.BAD_REQUEST).send(e.message);
+    }
+  }
+
+  static async getAllSites(req: Request, res: Response) {
+    try {
+      const result = await SiteRepository.findAll();
       if (!result) {
         res.sendStatus(StatusCodes.NOT_FOUND);
       }

@@ -20,4 +20,6 @@ siteRouter.put(
   SiteController.update,
 );
 
-siteRouter.get('/getAll', SiteController.getAllByCustomerId);
+siteRouter.get('/getAllById', SiteController.getAllByCustomerId);
+
+siteRouter.get('/getAll', SiteController.getAllSites);

@@ -36,9 +36,13 @@ export class SiteRepository {
     return Site.save(foundCustomer);
   }
 
-  static async findAll(customerId: number) {
+  static async findAllById(customerId: number) {
     return await Site.find({
       where: { customer: { id: customerId }, deletedAt: IsNull() },
     });
+  }
+
+  static async findAll() {
+    return await Site.find();
   }
 }

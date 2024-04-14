@@ -20,4 +20,6 @@ circuitRouter.put(
   CircuitController.update,
 );
 
-circuitRouter.get('/getAll', CircuitController.getAllByMeterId);
+circuitRouter.get('/getAllById', CircuitController.getAllByMeterId);
+
+circuitRouter.get('/getAll', CircuitController.getAllCircuits);

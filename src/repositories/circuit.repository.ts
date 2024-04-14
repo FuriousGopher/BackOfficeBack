@@ -42,9 +42,13 @@ export class CircuitRepository {
     return Circuit.save(foundCircuit);
   }
 
-  static async findAll(meterId: number) {
+  static async findAllById(meterId: number) {
     return await Circuit.find({
       where: { meter: { id: meterId }, deletedAt: IsNull() },
     });
+  }
+
+  static async findAll() {
+    return await Circuit.find();
   }
 }

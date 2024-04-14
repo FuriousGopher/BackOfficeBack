@@ -36,9 +36,13 @@ export class MeterRepository {
     return Meter.save(foundMeter);
   }
 
-  static async findAll(siteId: number) {
+  static async findAllById(siteId: number) {
     return await Meter.find({
       where: { site: { id: siteId }, deletedAt: IsNull() },
     });
+  }
+
+  static async findAll() {
+    return await Meter.find();
   }
 }

@@ -20,4 +20,6 @@ meterRouter.put(
   MeterController.update,
 );
 
-meterRouter.get('/getAll', MeterController.getAllBySiteId);
+meterRouter.get('/getAllById', MeterController.getAllBySiteId);
+
+meterRouter.get('/getAll', MeterController.getAllMeters);

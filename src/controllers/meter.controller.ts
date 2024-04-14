@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { createMeterDTO, updateMeterDTO } from '../types/types';
 import { MeterService } from '../services/meter.service';
 import { MeterRepository } from '../repositories/meter.repository';
+import { CustomerRepository } from '../repositories/customer.repository';
 
 export class MeterController {
   static async createNewMeter(req: Request, res: Response) {
@@ -27,7 +28,19 @@ export class MeterController {
 
   static async getAllBySiteId(req: Request, res: Response) {
     try {
-      const result = await MeterRepository.findAll(+req.body.siteId);
+      const result = await MeterRepository.findAllById(+req.body.siteId);
+      if (!result) {
+        res.sendStatus(StatusCodes.NOT_FOUND);
+      }
+      res.status(StatusCodes.OK).json(result);
+    } catch (e: any) {
+      res.status(StatusCodes.BAD_REQUEST).send(e.message);
+    }
+  }
+
+  static async getAllMeters(_req: Request, res: Response) {
+    try {
+      const result = await MeterRepository.findAll();
       if (!result) {
         res.sendStatus(StatusCodes.NOT_FOUND);
       }

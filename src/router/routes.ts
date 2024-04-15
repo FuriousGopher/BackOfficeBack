@@ -16,7 +16,7 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.use('/auth', authRouter);
-router.use('/admin', adminRouter);
+router.use('/admin', validatorForCookieToken, adminRouter);
 router.use('/customer', validatorForCookieToken, customerRouter);
 router.use('/site', validatorForCookieToken, siteRouter);
 router.use('/meter', validatorForCookieToken, meterRouter);

@@ -24,4 +24,9 @@ export class AdminRepository {
       id: adminId,
     });
   }
+
+  static async ifExist(email: string) {
+    const result = await Admin.findOne({ where: { email } });
+    return !!result;
+  }
 }

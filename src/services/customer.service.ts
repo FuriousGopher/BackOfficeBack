@@ -17,6 +17,9 @@ export class CustomerService {
     if (!foundCustomer) {
       throw new Error(`Customer not found`);
     }
+    if (updateCustomerDTO.isDelete) {
+      return await CustomerRepository.delete(updateCustomerDTO.id);
+    }
     return await CustomerRepository.update(updateCustomerDTO, foundCustomer);
   }
 

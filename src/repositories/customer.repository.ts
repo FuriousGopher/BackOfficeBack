@@ -1,6 +1,9 @@
 import { AppDataSource } from '../db/data-source';
 import { CustomerModel } from '../models/customer.model';
 import { updateCustomerDTO } from '../types/types';
+import { SiteModel } from '../models/site.model';
+import { MeterModel } from '../models/meter.model';
+import { CircuitModel } from '../models/circuit.model';
 
 const Customer = AppDataSource.getRepository(CustomerModel);
 
@@ -16,7 +19,7 @@ export class CustomerRepository {
 
   static async findOneById(id: number) {
     return await Customer.findOne({
-      where: { id },
+      where: { id: id },
     });
   }
 
@@ -33,10 +36,61 @@ export class CustomerRepository {
     foundCustomer: CustomerModel,
   ) {
     Object.assign(foundCustomer, updateCustomerDTO);
-    if (updateCustomerDTO.isDelete) {
-      foundCustomer.deletedAt = new Date();
-    }
     return Customer.save(foundCustomer);
+  }
+
+  static async delete(customerId: number) {
+    const customerRepository = AppDataSource.getRepository(CustomerModel);
+
+    const customer = await customerRepository.findOne({
+      where: { id: customerId },
+    });
+
+    if (customer) {
+      try {
+        customer.deletedAt = new Date();
+        await customerRepository.save(customer);
+
+        const siteRepository = AppDataSource.getRepository(SiteModel);
+        const sites = await siteRepository.find({
+          where: { customer: { id: customerId } },
+        });
+
+        const updatePromises = sites.map(async (site) => {
+          site.deletedAt = new Date();
+          await siteRepository.save(site);
+
+          const meterRepository = AppDataSource.getRepository(MeterModel);
+          const meters = await meterRepository.find({
+            where: { site: { id: site.id } },
+          });
+
+          const meterUpdatePromises = meters.map(async (meter) => {
+            meter.deletedAt = new Date();
+            await meterRepository.save(meter);
+
+            const circuitRepository = AppDataSource.getRepository(CircuitModel);
+            const circuits = await circuitRepository.find({
+              where: { meter: { id: meter.id } },
+            });
+
+            const circuitUpdatePromises = circuits.map(async (circuit) => {
+              circuit.deletedAt = new Date();
+              await circuitRepository.save(circuit);
+            });
+
+            await Promise.all(circuitUpdatePromises);
+          });
+
+          await Promise.all(meterUpdatePromises);
+        });
+
+        await Promise.all(updatePromises);
+      } catch (e: any) {
+        throw new Error(e); //TODO refactor
+      }
+    } else {
+    }
   }
 
   static async findAll() {

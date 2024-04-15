@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-export const updateDTOValidator = [
+export const updateCustomerDTOValidator = [
   body('id').isNumeric().withMessage('id required'),
   body('name').isString().trim().optional(),
   body('email').isString().trim().optional(),

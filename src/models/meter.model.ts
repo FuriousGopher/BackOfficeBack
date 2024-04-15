@@ -48,6 +48,6 @@ export class MeterModel {
   @ManyToOne(() => SiteModel, (site) => site.meters)
   site: SiteModel;
 
-  @OneToMany(() => CircuitModel, (circuit) => circuit.meter)
+  @OneToMany(() => CircuitModel, (circuit) => circuit.meter, { cascade: true })
   circuits: CircuitModel[];
 }

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { validationMiddleware } from '../../validators/validationErorrsMiddleware';
 import { createCustomerDTOValidator } from '../../validators/createDTOValidator';
 import { CustomerController } from '../../controllers/customer.controller';
-import { updateDTOValidator } from '../../validators/updateDTOValidator';
+import { updateCustomerDTOValidator } from '../../validators/updateDTOValidator';
 
 export const customerRouter = Router();
 
@@ -15,7 +15,7 @@ customerRouter.post(
 
 customerRouter.put(
   '/update',
-  updateDTOValidator,
+  updateCustomerDTOValidator,
   validationMiddleware,
   CustomerController.update,
 );

@@ -34,6 +34,6 @@ export class CustomerModel {
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz', select: false })
   updatedAt: Date;
 
-  @OneToMany(() => SiteModel, (site) => site.customer)
+  @OneToMany(() => SiteModel, (site) => site.customer, { cascade: true })
   sites: SiteModel[];
 }

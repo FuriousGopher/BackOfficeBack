@@ -46,6 +46,6 @@ export class SiteModel {
   @ManyToOne(() => CustomerModel, (customer) => customer.sites)
   customer: CustomerModel;
 
-  @OneToMany(() => MeterModel, (meter) => meter.site)
+  @OneToMany(() => MeterModel, (meter) => meter.site, { cascade: true })
   meters: MeterModel[];
 }

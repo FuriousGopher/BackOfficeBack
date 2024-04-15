@@ -3,7 +3,7 @@ import { updateCustomerDTO } from '../types/types';
 
 export class CustomerService {
   static async newCustomer(name: string, email: string, vatNumber: string) {
-    const checkIfExist = await CustomerRepository.findOneByEmail(email);
+    const checkIfExist = await CustomerRepository.findOneByEmail(email, name);
     if (checkIfExist) {
       throw new Error(`Customer already exists`);
     }

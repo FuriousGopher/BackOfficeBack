@@ -5,10 +5,13 @@ import { updateCustomerDTO } from '../types/types';
 const Customer = AppDataSource.getRepository(CustomerModel);
 
 export class CustomerRepository {
-  static async findOneByEmail(email: string) {
-    return await Customer.findOne({
-      where: { email },
-    });
+  static async findOneByEmail(email: string, name: string) {
+    return await Customer.createQueryBuilder('customer')
+      .where('customer.email = :email OR customer.name = :name', {
+        email,
+        name,
+      })
+      .getOne();
   }
 
   static async findOneById(id: number) {

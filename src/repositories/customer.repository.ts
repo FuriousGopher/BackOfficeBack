@@ -5,6 +5,9 @@ import { SiteModel } from '../models/site.model';
 import { MeterModel } from '../models/meter.model';
 import { CircuitModel } from '../models/circuit.model';
 import { IsNull } from 'typeorm';
+import { SiteRepository } from './site.repository';
+import { MeterRepository } from './meter.repository';
+import { CircuitRepository } from './circuit.repository';
 
 const Customer = AppDataSource.getRepository(CustomerModel);
 
@@ -100,67 +103,31 @@ export class CustomerRepository {
   }
 
   static async findAllInfo(customerId: number) {
-    const customers = await Customer.createQueryBuilder('customer')
-      .leftJoinAndSelect('customer.sites', 'site')
-      .leftJoinAndSelect('site.meters', 'meter')
-      .leftJoinAndSelect('meter.circuits', 'circuit')
-      .where('customer.id = :customerId', { customerId })
-      .andWhere('customer.deleted_at IS NULL')
-      .andWhere('site.deleted_at IS NULL')
-      .andWhere('meter.deleted_at IS NULL')
-      .andWhere('circuit.deleted_at IS NULL')
-      .getMany();
+    const customer = await Customer.find({
+      where: { id: customerId, deletedAt: IsNull() },
+    });
 
-    const customerInfo = customers.map((customer) => ({
-      id: customer.id,
-      name: customer.name,
-      email: customer.email,
-      vat_number: customer.vat_number,
-      createdAt: customer.createdAt,
-    }));
+    const sites = await SiteRepository.findAllById(customerId);
+    const siteIds = sites.map((site) => site.id);
+    const metersPromises = siteIds.map(async (siteId) => {
+      return await MeterRepository.findAllById(siteId);
+    });
 
-    const allSites = customers.flatMap((customer) =>
-      customer.sites.map((site) => ({
-        id: site.id,
-        name: site.name,
-        coordinates: site.coordinates,
-        address: site.address,
-        post_code: site.post_code,
-        createdAt: site.createdAt,
-      })),
-    );
+    const metersArrays = await Promise.all(metersPromises);
+    const meters = metersArrays.flat();
+    const metersIds = meters.map((meter) => meter.id);
 
-    const allMeters = customers.flatMap((customer) =>
-      customer.sites.flatMap((site) =>
-        site.meters.map((meter) => ({
-          id: meter.id,
-          name: meter.name,
-          serialNumber: meter.serialNumber,
-          installationDate: meter.installationDate,
-          createdAt: meter.createdAt,
-        })),
-      ),
-    );
-
-    const allCircuits = customers.flatMap((customer) =>
-      customer.sites.flatMap((site) =>
-        site.meters.flatMap((meter) =>
-          meter.circuits.map((circuit) => ({
-            id: circuit.id,
-            name: circuit.name,
-            is_main: circuit.is_main,
-            installationDate: circuit.installationDate,
-            createdAt: circuit.createdAt,
-          })),
-        ),
-      ),
-    );
+    const circuitsPromises = metersIds.map(async (meterId) => {
+      return await CircuitRepository.findAllById(meterId);
+    });
+    const circuitsArrays = await Promise.all(circuitsPromises);
+    const circuits = circuitsArrays.flat();
 
     return {
-      customerInfo,
-      allSites,
-      allMeters,
-      allCircuits,
+      customer,
+      sites,
+      meters,
+      circuits,
     };
   }
 }

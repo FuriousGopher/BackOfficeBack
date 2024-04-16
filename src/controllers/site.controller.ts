@@ -20,7 +20,7 @@ export class SiteController {
     try {
       const updateSiteDTO = req.body as updateSiteDTO;
       await SiteService.updateSite(updateSiteDTO);
-      res.status(StatusCodes.OK).send('Successfully updated customer');
+      res.status(StatusCodes.OK).send('Successfully updated site');
     } catch (e: any) {
       res.status(StatusCodes.BAD_REQUEST).send(e.message);
     }

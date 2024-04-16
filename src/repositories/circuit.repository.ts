@@ -39,6 +39,11 @@ export class CircuitRepository {
     if (updateCircuitDTO.isDelete) {
       foundCircuit.deletedAt = new Date();
     }
+
+    if (updateCircuitDTO.hasOwnProperty('is_main')) {
+      foundCircuit.is_main = updateCircuitDTO.is_main;
+    }
+
     return Circuit.save(foundCircuit);
   }
 

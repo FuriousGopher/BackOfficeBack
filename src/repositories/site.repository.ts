@@ -3,6 +3,8 @@ import { SiteModel } from '../models/site.model';
 import { CustomerModel } from '../models/customer.model';
 import { createSiteDTO, updateSiteDTO } from '../types/types';
 import { IsNull } from 'typeorm';
+import { MeterModel } from '../models/meter.model';
+import { CircuitModel } from '../models/circuit.model';
 const Site = AppDataSource.getRepository(SiteModel);
 
 export class SiteRepository {
@@ -44,5 +46,48 @@ export class SiteRepository {
 
   static async findAll() {
     return await Site.find({ where: { deletedAt: IsNull() } });
+  }
+
+  static async delete(siteId: number) {
+    const siteRepository = AppDataSource.getRepository(SiteModel);
+
+    const site = await siteRepository.findOne({
+      where: { id: siteId },
+    });
+
+    if (site) {
+      try {
+        site.deletedAt = new Date();
+        await siteRepository.save(site);
+
+        const meterRepository = AppDataSource.getRepository(MeterModel);
+        const meters = await meterRepository.find({
+          where: { site: { id: site.id } },
+        });
+
+        const meterUpdatePromises = meters.map(async (meter) => {
+          meter.deletedAt = new Date();
+          await meterRepository.save(meter);
+
+          const circuitRepository = AppDataSource.getRepository(CircuitModel);
+          const circuits = await circuitRepository.find({
+            where: { meter: { id: meter.id } },
+          });
+
+          const circuitUpdatePromises = circuits.map(async (circuit) => {
+            circuit.deletedAt = new Date();
+            await circuitRepository.save(circuit);
+          });
+
+          await Promise.all(circuitUpdatePromises);
+        });
+
+        await Promise.all(meterUpdatePromises);
+      } catch (e: any) {
+        throw new Error(e.message);
+      }
+    } else {
+      throw new Error(`Site not found`);
+    }
   }
 }

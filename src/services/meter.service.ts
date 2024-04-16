@@ -1,6 +1,7 @@
 import { createMeterDTO, updateMeterDTO } from '../types/types';
 import { MeterRepository } from '../repositories/meter.repository';
 import { SiteRepository } from '../repositories/site.repository';
+import { CustomerRepository } from '../repositories/customer.repository';
 
 export class MeterService {
   static async newMeter(createMeterDTO: createMeterDTO) {
@@ -21,6 +22,9 @@ export class MeterService {
     const foundMeter = await MeterRepository.findOneById(updateMeterDTO.id);
     if (!foundMeter) {
       throw new Error(`Meter not found`);
+    }
+    if (updateMeterDTO.isDelete) {
+      return await MeterRepository.delete(foundMeter.id);
     }
     return await MeterRepository.update(updateMeterDTO, foundMeter);
   }

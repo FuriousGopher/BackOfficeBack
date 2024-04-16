@@ -88,9 +88,10 @@ export class CustomerRepository {
 
         await Promise.all(updatePromises);
       } catch (e: any) {
-        throw new Error(e); //TODO refactor
+        throw new Error(e.message);
       }
     } else {
+      throw new Error(`Customer not found`);
     }
   }
 

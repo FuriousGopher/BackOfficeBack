@@ -3,6 +3,8 @@ import { SiteModel } from '../models/site.model';
 import { createMeterDTO, updateMeterDTO } from '../types/types';
 import { IsNull } from 'typeorm';
 import { MeterModel } from '../models/meter.model';
+import { CustomerModel } from '../models/customer.model';
+import { CircuitModel } from '../models/circuit.model';
 
 const Meter = AppDataSource.getRepository(MeterModel);
 
@@ -44,5 +46,36 @@ export class MeterRepository {
 
   static async findAll() {
     return await Meter.find({ where: { deletedAt: IsNull() } });
+  }
+
+  static async delete(meterId: number) {
+    const meterRepository = AppDataSource.getRepository(MeterModel);
+
+    const meter = await meterRepository.findOne({
+      where: { id: meterId },
+    });
+
+    if (meter) {
+      try {
+        meter.deletedAt = new Date();
+        await meterRepository.save(meter);
+
+        const circuitRepository = AppDataSource.getRepository(CircuitModel);
+        const circuits = await circuitRepository.find({
+          where: { meter: { id: meter.id } },
+        });
+
+        const circuitUpdatePromises = circuits.map(async (circuit) => {
+          circuit.deletedAt = new Date();
+          await circuitRepository.save(circuit);
+        });
+
+        await Promise.all(circuitUpdatePromises);
+      } catch (e: any) {
+        throw new Error(e.message);
+      }
+    } else {
+      throw new Error(`Meeter not found`);
+    }
   }
 }

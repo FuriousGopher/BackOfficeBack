@@ -22,6 +22,9 @@ export class SiteService {
     if (!foundSite) {
       throw new Error(`Site not found`);
     }
+    if (updateSiteDTO.isDelete) {
+      return await SiteRepository.delete(updateSiteDTO.id);
+    }
     return await SiteRepository.update(updateSiteDTO, foundSite);
   }
 }

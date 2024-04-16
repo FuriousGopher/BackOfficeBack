@@ -4,6 +4,7 @@ import { updateCustomerDTO } from '../types/types';
 import { SiteModel } from '../models/site.model';
 import { MeterModel } from '../models/meter.model';
 import { CircuitModel } from '../models/circuit.model';
+import { IsNull } from 'typeorm';
 
 const Customer = AppDataSource.getRepository(CustomerModel);
 
@@ -94,7 +95,7 @@ export class CustomerRepository {
   }
 
   static async findAll() {
-    return await Customer.find();
+    return await Customer.find({ where: { deletedAt: IsNull() } });
   }
 
   static async findAllInfo(customerId: number) {

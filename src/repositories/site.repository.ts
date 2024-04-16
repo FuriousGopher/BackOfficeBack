@@ -43,6 +43,6 @@ export class SiteRepository {
   }
 
   static async findAll() {
-    return await Site.find();
+    return await Site.find({ where: { deletedAt: IsNull() } });
   }
 }

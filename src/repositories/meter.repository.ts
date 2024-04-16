@@ -43,6 +43,6 @@ export class MeterRepository {
   }
 
   static async findAll() {
-    return await Meter.find();
+    return await Meter.find({ where: { deletedAt: IsNull() } });
   }
 }

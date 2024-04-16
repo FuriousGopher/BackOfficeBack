@@ -49,6 +49,6 @@ export class CircuitRepository {
   }
 
   static async findAll() {
-    return await Circuit.find();
+    return await Circuit.find({ where: { deletedAt: IsNull() } });
   }
 }

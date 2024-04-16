@@ -18,7 +18,7 @@ export class CircuitModel {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ default: false })
+  @Column({ type: 'boolean' })
   is_main: boolean;
 
   @Column({ name: 'installation_date', type: 'timestamptz', nullable: false })

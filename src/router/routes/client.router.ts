@@ -1,10 +1,8 @@
 import { Router } from 'express';
-import {
-  emailPasswordValidator,
-  emailVatNumberValidator,
-} from '../../validators/emailLoginValidatorInput';
+import { emailVatNumberValidator } from '../../validators/emailLoginValidatorInput';
 import { validationMiddleware } from '../../validators/validationErorrsMiddleware';
 import { ClientController } from '../../controllers/client.controller';
+import { CustomerController } from '../../controllers/customer.controller';
 
 export const clientRouter = Router();
 
@@ -15,5 +13,5 @@ clientRouter.post(
   ClientController.login,
 );
 
-clientRouter.post('/get-client-id', ClientController.getClientId);
+clientRouter.get('/getAllInfo', CustomerController.getAllInfo);
 clientRouter.post('/get-client-id', ClientController.logOut);

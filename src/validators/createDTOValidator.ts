@@ -49,5 +49,5 @@ export const createCircuitDTOValidator = [
   body('name').isString().trim().notEmpty().withMessage('name required'),
   body('is_main').isBoolean().withMessage('is main required'),
   body('installationDate').isDate().withMessage('installation date required'),
-  body('meterID').isString().trim().notEmpty().withMessage('meter id required'),
+  body('meterId').isString().trim().notEmpty().withMessage('meter id required'),
 ];

@@ -24,7 +24,7 @@ export async function runDb() {
     AppDataSource.initialize().then(() => {
       console.log(`Server connect to ${process.env.DB_HOST}`);
     });
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
   }
 }

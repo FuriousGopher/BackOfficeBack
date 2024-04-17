@@ -23,8 +23,8 @@ export const validatorForCookieToken = async (
     req.admin = admin;
 
     next();
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
     res.sendStatus(StatusCodes.UNAUTHORIZED);
   }
 };

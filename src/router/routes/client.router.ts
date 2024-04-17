@@ -14,4 +14,3 @@ clientRouter.post(
 );
 
 clientRouter.get('/getAllInfo', CustomerController.getAllInfo);
-clientRouter.post('/get-client-id', ClientController.logOut);

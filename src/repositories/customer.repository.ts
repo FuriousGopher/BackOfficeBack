@@ -130,4 +130,8 @@ export class CustomerRepository {
       circuits,
     };
   }
+
+  static async findByEmail(email: string) {
+    return Customer.findOne({ where: { email: email, deletedAt: IsNull() } });
+  }
 }

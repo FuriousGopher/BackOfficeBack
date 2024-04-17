@@ -8,3 +8,12 @@ export const emailPasswordValidator = [
     .notEmpty()
     .withMessage('password is required'),
 ];
+
+export const emailVatNumberValidator = [
+  body('email').isString().trim().notEmpty().withMessage('Email required'),
+  body('vatNumber')
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage('Vat_number is required'),
+];
